@@ -1,5 +1,7 @@
 import UserTabs from "@/components/users/UserTabs"
+import Image from "next/image"
 import Link from "next/link"
+import AnakinProfile from '../../../../../public/anakin_profile.jpg'
 
 const UserPage = ({params}: {params: {username: string}}) =>{
     
@@ -33,8 +35,15 @@ const UserPage = ({params}: {params: {username: string}}) =>{
 
     return <main className="flex flex-col bg-gray-100 p-8">
         <section className="flex flex-col mb-8">
-            <div className="rounded-full p-6 bg-gray-300 w-20 text-center mb-4">
-                <span className="font-semibold text-lg">AS</span>
+            <div className="rounded-full text-center mb-4 block relative w-20 h-20">
+                <Image
+                    className="rounded-full"
+                    src={AnakinProfile}
+                    alt="Picture of the author"
+                    fill //Va a necesitar que el componente padre, sea tipo "block", y posicionamiento "relative"
+                    priority //Da prioridad de recursos para que sea la primera imagen que se muestre
+                    placeholder="blur" //Mientras se carga la imagen, se muestra de manera borrosa, o como nosotros le asignemos
+                />
             </div>
             <h2 className="mb-1">
                 {user.name}

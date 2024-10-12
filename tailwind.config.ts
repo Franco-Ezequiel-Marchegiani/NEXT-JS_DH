@@ -8,7 +8,12 @@ const config: Config = {
         './src/app/**/*.{js,ts,jsx,tsx,mdx}'
     ],
     theme:{
-        extend:{}
+        extend:{
+            fontFamily: {
+                title: ['var(--font-alegreya)'],
+                body: ['var(--font-alegreya'],
+            },
+        }
     },
     fontsize: {
         xs: '14px',
