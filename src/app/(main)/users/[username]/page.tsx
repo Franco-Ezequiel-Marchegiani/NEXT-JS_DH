@@ -1,14 +1,16 @@
 import UserTabs from "@/components/users/UserTabs"
 import Image from "next/image"
 import Link from "next/link"
-import { getUserData, getUserMessages, getUserMessagesReplies } from "@/services/api.service"
+import userApi from "@/services/users/users.service"
 
 
 
 const UserPage = async ({params}: {params: {username: string}}) =>{
-    const user = await getUserData(params.username)
-    const userMessage = await getUserMessages(params.username)
-    const userMessageReplies = await getUserMessagesReplies(params.username)
+    const userPromise = userApi.getUserData(params.username)
+    const userMessagePromise = userApi.getUserMessages(params.username)
+    const userMessageRepliesPromise = userApi.getUserMessagesReplies(params.username)
+
+    const [user, userMessage, userMessageReplies] = await Promise.all([userPromise, userMessagePromise, userMessageRepliesPromise])
     
     return <main className="flex flex-col bg-gray-100 p-8">
         <section className="flex flex-col mb-8">
