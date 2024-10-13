@@ -25,8 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${comic_neue.variable} ${alegreya.variable}`}>
       <body>
-        <h1 className="font-bold italic">OTRO TÍTULO</h1>
-        <h1>Subtitulo</h1>
         {children}
       </body>
     </html>

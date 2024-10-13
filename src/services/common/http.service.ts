@@ -3,11 +3,14 @@ const API_PUBLIC_ENDPOINT = `/public` ;
 
 //Definimos una función para llamadas tipo GET, para pasar por params la URL, y los parámetros como fecha, página, etc. En caso de tener, es opcional
 export const httpGet = async <T>(endpoint:string, params?: URLSearchParams): Promise<T> =>{
-    const res = await fetch(`${API_URL}${endpoint}${params ? `${params}` : '' }`)
-    if (!res.ok) {
-        throw new Error("Failed to retrieve users")
+    try {
+        const res = await fetch(`${API_URL}${endpoint}${params ? `${params}` : '' }`)
+        return res.json()   
+    } catch (error) {
+        console.log("ERROR AQUÍ:", error);
+        throw new Error(`Failed to retrieve users: ${error}`)
+        
     }
-    return res.json()
 
 }
 
