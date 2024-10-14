@@ -11,7 +11,7 @@ const UserPage = async ({params}: {params: {username: string}}) =>{
     const userMessageRepliesPromise = userApi.getUserMessagesReplies(params.username)
 
     const [user, userMessage, userMessageReplies] = await Promise.all([userPromise, userMessagePromise, userMessageRepliesPromise])
-    
+
     return <main className="flex flex-col bg-gray-100 p-8">
         <section className="flex flex-col mb-8">
             <div className="rounded-full text-center mb-4 block relative w-20 h-20">

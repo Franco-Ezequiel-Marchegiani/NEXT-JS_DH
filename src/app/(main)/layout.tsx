@@ -18,8 +18,6 @@ const UsersLayOut: FC<PropsWithChildren> = async ({children}) =>{
     const [hashes_data, users] = await Promise.all([hashes_dataPromise, usersPromise])
 
     /* Devuelve 2 objetos, el de content y pagination, pero me lo marca en error por Typescript */
-    console.log("LOG DE LAYOUT:", users);
-    //console.log("LOG DE LAYOUT2:", hashes_data.content);
     
     return <>
         <div className="w-full h-full grid grid-cols-12 gap-4 px-4">

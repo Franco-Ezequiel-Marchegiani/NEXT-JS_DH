@@ -6,7 +6,7 @@ type BaseUser = {
         "photoUrl": string, 
 }
 export type TrendingUserType = BaseUser & {
-        "count": number
+        "followersCount": number
 }
 
 export type UserType = BaseUser & {
