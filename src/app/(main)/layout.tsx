@@ -6,7 +6,7 @@ import { FC, PropsWithChildren } from "react";
 
 const LINKS = [
   {title: 'Inicio', href:'/',},
-  {title: 'Explorar', href:'/explorar',},
+  {title: 'Explorar', href:'/explore',},
   {title: 'Perfil', href:'/mi-prefil',},
 ] 
 

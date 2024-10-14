@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import Message from "../messages/Message";
+import { MessageType } from "@/types/message.types";
 
 enum TabView {
     MESSAGES, REPLIES
