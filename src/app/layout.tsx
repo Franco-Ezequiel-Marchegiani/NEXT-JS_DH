@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Alegreya, Comic_Neue} from 'next/font/google'
 import "./globals.css";
-import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 
 const alegreya = Alegreya({
