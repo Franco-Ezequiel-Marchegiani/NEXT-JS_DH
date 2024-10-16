@@ -1,18 +1,23 @@
 import Message from "@/components/messages/Message"
+import { UserType } from "@/types/user.types"
 
 const MessagesPage = () =>{
 
     const messages = [
         {
-            name: 'Anakin Skywalker',
-            username: 'Anakin',
-            message: 'Segundo mensaje',
+            user: {
+                name: 'Anakin Skywalker',
+                username: 'Anakin',
+            } as UserType,
+            message: 'Primer mensaje',
             repliesCount: 13,
         },
         {
-            name: 'Anakin Skywalker',
-            username: 'Anakin',
-            message: 'Primer mensaje',
+            user: {
+                name: 'Anakin Skywalker',
+                username: 'Anakin',
+            } as UserType,
+            message: 'Segundo mensaje',
             repliesCount: 13,
         },
     ]

@@ -37,7 +37,7 @@ const UserCard  = ({user, layout, children}: UserCardProps) =>{
                         width={60}
                         height={60}
                         priority //Da prioridad de recursos para que sea la primera imagen que se muestre
-                        placeholder="blur" //Mientras se carga la imagen, se muestra de manera borrosa, o como nosotros le asignemos
+                        //placeholder="blur" //Mientras se carga la imagen, se muestra de manera borrosa, o como nosotros le asignemos
                         blurDataURL={user.photoUrl}
                     />
                 </div>

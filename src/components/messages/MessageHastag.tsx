@@ -11,9 +11,9 @@ const MessageHastag = ({hash}: MessageHastagProps) => {
         <Link href={`/mensajes?query=${hash.hash}&type=hash`}>
             <h4 className="font-semibold cursor-pointer p-1">{hash.hash}</h4>
         </Link>
-        <p className="px-1"> 
+        <div className="px-1"> 
             <PostCounter count={hash.count}/>
-        </p>
+        </div>
     </>
 }
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Alegreya, Comic_Neue} from 'next/font/google'
 import "./globals.css";
 import Link from "next/link";
+import Navbar from "@/components/layout/Navbar";
 
 const alegreya = Alegreya({
   subsets: ['latin'],
@@ -26,13 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${comic_neue.variable} ${alegreya.variable}`}>
       <body>
-        <header>
-          <nav>
-            <div>
-              <Link href='/explore'>LOGO</Link>
-            </div>
-          </nav>
-        </header>
+        <Navbar />
         {children}
       </body>
     </html>
