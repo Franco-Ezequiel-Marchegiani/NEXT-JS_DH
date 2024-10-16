@@ -2,6 +2,7 @@ import ExploreTrending from "@/components/explore/ExploreTrending";
 import ExploreUsers from "@/components/explore/ExploreUsers";
 import Menu from "@/components/menu/Menu";
 import exploreApi from "@/services/explore/explore.service";
+import Link from "next/link";
 import { FC, PropsWithChildren } from "react";
 
 const LINKS = [
@@ -34,6 +35,11 @@ const UsersLayOut: FC<PropsWithChildren> = async ({children}) =>{
               <div className="mb-4">
                 <ExploreUsers users={users.content}/>
               </div>
+              <Link href={"/faq"}>
+                <div className="link-primary">
+                  Preguntas frecuentes
+                </div>
+              </Link>
             </div>    
         </div>
         </>
