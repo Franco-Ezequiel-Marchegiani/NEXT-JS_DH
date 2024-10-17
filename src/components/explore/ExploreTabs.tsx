@@ -2,18 +2,19 @@
 import { useEffect, useState } from "react";
 import { TrendingHastag } from "@/types/hash.types";
 import { TrendingUserType } from "@/types/user.types";
-import UserCard, { UserCardLayout } from "../users/UserCard";
-import MessageHastag from "../messages/MessageHastag";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import UserList from "../users/UserList";
+import { PageType } from "@/types/pagination.types";
+import MessageHastagList from "../messages/MessageHastagList";
 
 enum TabView {
     HASHTAGS, USERS
 }
 
 type ExploreTabsProps = {
-    hastags: TrendingHastag[],
-    users: TrendingUserType[],
+    hastags: PageType<TrendingHastag>,
+    users: PageType<TrendingUserType>,
     initialTab?: string,
 }
 
@@ -39,12 +40,8 @@ const ExploreTabs = ({hastags, users, initialTab}: ExploreTabsProps) =>{
             </Link>
         </div>
         <div>
-            {tab === TabView.HASHTAGS && hastags.map((hash, index) => 
-                <MessageHastag key={`explore-hash-${index}`} hash={hash}/>
-            )}
-            {tab === TabView.USERS && users.map((user, index) => 
-                <UserCard key={`explore-user-${index}`} user={user} layout={UserCardLayout.VERTICAL} />
-            )}
+            {tab === TabView.HASHTAGS && <MessageHastagList initialPage={hastags} />}
+            {tab === TabView.USERS && <UserList initialUserPage={users}/> }
         </div>
     </>
 }
