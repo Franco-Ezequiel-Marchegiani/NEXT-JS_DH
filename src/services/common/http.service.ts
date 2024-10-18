@@ -21,3 +21,23 @@ export const httpGetPublic = async <T>(endpoint:string, params?: URLSearchParams
     
     return httpGet(`${API_PUBLIC_ENDPOINT}${endpoint}`, params)
 }
+
+
+export const httpPost = async <T>(endpoint:string, body: object): Promise<T> =>{
+    try {
+        const res = await fetch(`${API_URL}${endpoint}`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJzb2NpYWwtYXBpIiwiaWF0IjoxNjkxNTE2NDMwLCJ1c2VybmFtZSI6InlvZGEifQ.pg4lkBK2wlEorNrThDFqkC7l5uHrpZTJAYp4De4629c`
+            },
+            body: JSON.stringify(body) //Ayuda a traer la información actualizada a la primera
+        })
+        return res.json()   
+    } catch (error) {
+        console.log("ERROR AQUÍ:", error);
+        throw new Error(`Failed to retrieve users: ${error}`)
+        
+    }
+
+}
