@@ -8,21 +8,23 @@ import InputText from "../form/InputText";
 type FormData = {
     username: string;
     password: string;
+    name: string;
+    photoUrl: string;
 }
 
 const schema = yup.object({
     username: yup.string().required(),
     password: yup.string().required(),
+    name: yup.string().required(),
+    photoUrl: yup.string().required(),
 })
 
-const LoginForm = () =>{
-    //Con "methods" extraemos todo para pasar la info al Form Provider
+const RegisterForm = () =>{
     const methods = useForm<FormData>({
         resolver: yupResolver(schema)
       });
-    //Y luego, una vez teniendo el Methods, extraemos lo que necesitemos para este form
+
     const {handleSubmit} = methods
-      
 
     const onSubmit = (data: FormData) =>{
         console.log(JSON.stringify(data));
@@ -31,21 +33,38 @@ const LoginForm = () =>{
     return <>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <InputText 
+
+                    <InputText
+                        label="Tu nombre completo:"
+                        fieldName="name"
+                        inputType="text"
+                        placeholder="Anakin Skywalker"
+                    />
+                    <InputText
+                        label="La URL de tu foto de perfil:"
+                        fieldName="photoUrl"
+                        inputType="text"
+                        placeholder="https://..."
+                        styles="mt-2"
+                    />
+                    <InputText
                         label="Nombre de usuario:"
                         fieldName="username"
                         inputType="text"
                         placeholder="Anakin Skywalker"
+                        styles="mt-2"
                     />
                     <InputText 
                         label="Contraseña:"
                         fieldName="password"
                         inputType="password"
+                        styles="mt-2"
                     />
-                    <SubmitButton label="Iniciar Sesión" onSubmit={onSubmit} styles="mt-2" />
+
+                    <SubmitButton label="Crear cuenta" onSubmit={onSubmit} styles="mt-2" />
                 </form>
             </FormProvider>
     </>
 }
 
-export default LoginForm;
+export default RegisterForm;
