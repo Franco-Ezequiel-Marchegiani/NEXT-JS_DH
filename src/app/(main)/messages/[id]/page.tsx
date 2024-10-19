@@ -1,4 +1,5 @@
 import Message from "@/components/messages/Message"
+import MessagePostForm from "@/components/messages/MessagePostForm"
 import messageApi from "@/services/messages/messages.service"
 
 const MessagePage = async ({params}: {params: {id: string}}) =>{
@@ -14,13 +15,15 @@ const MessagePage = async ({params}: {params: {id: string}}) =>{
     <main className="flex flex-col bg-gray-100 p-8">
         <section className="flex flex-col mb-8">
             <Message message={messagePromise}/>
-
         </section> 
-        <div>
+        <section className="flex flex-col mb-8">
+            <MessagePostForm parentId={params.id} />
+        </section>
+        <section className="flex flex-col w-full">
             {repliesPagePromise.content.map((message, index) => 
                 <Message key={`${index}`} message={message}/>
             )} 
-        </div>
+        </section>
     </main>
         
     </>

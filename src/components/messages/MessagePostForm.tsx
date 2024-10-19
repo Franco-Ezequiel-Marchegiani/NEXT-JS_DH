@@ -1,20 +1,28 @@
 "use client"
+import messageApi from "@/services/messages/messages.service";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+type MessagepostFormType = {
+    parentId?: string;
+}
 type FormData = {
     message: string;
 }
 
-const MessagePostForm = () =>{
+const MessagePostForm = ({parentId}: MessagepostFormType) =>{
     const {register, handleSubmit, resetField, setFocus} = useForm<FormData>();
 
     useEffect(() =>{
         setFocus("message")
-    },[])
+    },[setFocus])
 
-    const onSubmit = async() =>{
+
+    const onSubmit = async(data: FormData) =>{
+        const response = await messageApi.postMessage(data.message, parentId);
+        console.log(response);
+        console.log(JSON.stringify(response));
         resetField("message")
         setFocus("message")
     }
