@@ -9,8 +9,6 @@ const IndexPage = async ({searchParams}: {searchParams?: {[key: string]: string 
     searchParams?.query ?
     await messageApi.getMessagesByHash(searchParams?.query,0,10)
     : await messageApi.getMessageFeed(0,10)
-    //console.log(messageResponse);
-    console.log(await messageApi.getMessagesByHash(searchParams?.query,0,10));
     
     return <>
         <main className="flex flex-col bg-gray-100 p-8">
