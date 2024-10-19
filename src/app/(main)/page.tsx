@@ -5,7 +5,6 @@ import messageApi from "@/services/messages/messages.service";
 const IndexPage = async () =>{
     
     const messageResponse = await messageApi.getMessageFeed(0,10)
-    console.log("MESSAGES DATA: ", messageResponse);
     
     return <>
         <main className="flex flex-col bg-gray-100 p-8">

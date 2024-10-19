@@ -5,8 +5,6 @@ import faqsApi from "@/services/faqs/faqs.service";
 export default async function FAQPage({params}: {params: {slug: string}}) {
   const fagPages = await faqsApi.getFAQPages();
   const fagPage = fagPages.data.find(page => page.slug === `/${params.slug}`)
-  console.log("INFO FAG PAGE",fagPage);
-
   
   return (
     <>

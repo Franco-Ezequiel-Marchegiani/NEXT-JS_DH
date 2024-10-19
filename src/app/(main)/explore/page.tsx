@@ -8,7 +8,6 @@ const ExplorePage = async ({searchParams}: {searchParams?: {[key: string]: strin
     const usersPromise =  exploreApi.getFollowRecomendations(0, 5);
 
     const [hashes_data, users] = await Promise.all([hashes_dataPromise, usersPromise])
-    console.log('log USERS', users);
     
     return <>
         <main className="flex flex-col bg-gray-100 p-8">
