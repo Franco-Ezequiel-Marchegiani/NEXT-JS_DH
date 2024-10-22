@@ -1,3 +1,5 @@
+import { AccessDeniedError } from "./http.erros";
+
 const API_URL = 'http://localhost:8080/api';
 const API_PUBLIC_ENDPOINT = `/public` ;
 
@@ -23,21 +25,34 @@ export const httpGetPublic = async <T>(endpoint:string, params?: URLSearchParams
 }
 
 
-export const httpPost = async <T>(endpoint:string, body: object): Promise<T> =>{
+export const httpPost = async <T>(endpoint:string, body: object, skipAuthorization?: boolean): Promise<T> =>{
     try {
         const res = await fetch(`${API_URL}${endpoint}`,{
             method: 'POST',
-            headers:{
+            headers: skipAuthorization ? {'Content-Type': 'application/json'} :{
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJzb2NpYWwtYXBpIiwiaWF0IjoxNjkxNTE2NDMwLCJ1c2VybmFtZSI6InlvZGEifQ.pg4lkBK2wlEorNrThDFqkC7l5uHrpZTJAYp4De4629c`
             },
             body: JSON.stringify(body) //Ayuda a traer la información actualizada a la primera
         })
+        if(!res.ok){
+            if (res.status === 403) {
+                throw new AccessDeniedError("User has no access")
+            }
+            throw new Error("Faild to post: " + endpoint)
+        }
         return res.json()   
     } catch (error) {
         console.log("ERROR AQUÍ:", error);
         throw new Error(`Failed to retrieve users: ${error}`)
         
     }
+
+}
+
+
+export const httpPostPublic = async <T>(endpoint:string, body: object): Promise<T> =>{
+
+    return httpPost(`${API_PUBLIC_ENDPOINT}${endpoint}`, body, true)
 
 }
