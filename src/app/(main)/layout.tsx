@@ -8,7 +8,7 @@ import { FC, PropsWithChildren } from "react";
 const LINKS = [
   {title: 'Inicio', href:'/',},
   {title: 'Explorar', href:'/explore',},
-  {title: 'Perfil', href:'/mi-prefil',},
+  {title: 'Perfil', href:'/profile',},
 ] 
 
 const UsersLayOut: FC<PropsWithChildren> = async ({children}) =>{
