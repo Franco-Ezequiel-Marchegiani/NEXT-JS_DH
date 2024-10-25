@@ -1,5 +1,6 @@
 
 import UserPageContainerAsync from "@/components/users/UserPageContainer"
+import authService from "@/services/auth/auth.service";
 import userApi from "@/services/users/users.service"
 import { cookies } from "next/headers";
 import { createClient } from "redis";
@@ -16,10 +17,9 @@ client.connect().then(() =>{
 const ProfilePage = async () =>{
     //Obtenemos la cookie
     const cookieStore = cookies()
-    const sessionId = cookieStore.get('SocialSessionID')
+    const sessionId = cookieStore.get('SocialSessionID')?.value ?? ''
+    const accessToken = await authService.getAccessToken(sessionId)
     
-    //Pasamos la cookie que tenemos almacenada, al client
-    const accessToken = await client.get(sessionId?.value ?? '');
     //Si no encontró nada, arroja un error 403
     if (!accessToken) { 
         return new Response(JSON.stringify({error: "Access denied"}), {
@@ -27,8 +27,8 @@ const ProfilePage = async () =>{
         })
     }
     //Pasamos la cookie y hacemos la consulta para tener la información
-    const response = await userApi.getMeInternal(accessToken)
+    const data_me = await userApi.getMeInternal(accessToken)
     
-    return <UserPageContainerAsync username={response.username} />
+    return <UserPageContainerAsync username={data_me.username} />
 }
 export default ProfilePage

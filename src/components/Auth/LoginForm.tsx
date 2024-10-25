@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import SubmitButton from "../form/SubmitButton";
 import InputText from "../form/InputText";
-import authApi from "@/services/auth/auth.service";
 import { AccessDeniedError } from "@/services/common/http.erros";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import authApi from "@/services/auth/auth.api";
 
 type FormData = {
     username: string;
