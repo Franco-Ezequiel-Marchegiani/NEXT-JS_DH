@@ -1,9 +1,8 @@
 
 import UserPageContainerAsync from "@/components/users/UserPageContainer"
-import authService from "@/services/auth/auth.service";
 import userApi from "@/services/users/users.service"
-import { cookies } from "next/headers";
 import { createClient } from "redis";
+import { headers } from "next/headers";
 
 const client = createClient({
     url: 'redis://default:SocialNetworkPass@localhost:6379'
@@ -15,17 +14,9 @@ client.connect().then(() =>{
 
 
 const ProfilePage = async () =>{
-    //Obtenemos la cookie
-    const cookieStore = cookies()
-    const sessionId = cookieStore.get('SocialSessionID')?.value ?? ''
-    const accessToken = await authService.getAccessToken(sessionId)
+    //Obtenemos la cookie con el access Token, ya habiendo hecho la validación en el middleWare
+    const accessToken = headers().get('x-social-access-token') ?? '';
     
-    //Si no encontró nada, arroja un error 403
-    if (!accessToken) { 
-        return new Response(JSON.stringify({error: "Access denied"}), {
-        status: 403,
-        })
-    }
     //Pasamos la cookie y hacemos la consulta para tener la información
     const data_me = await userApi.getMeInternal(accessToken)
     

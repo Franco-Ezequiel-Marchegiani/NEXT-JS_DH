@@ -1,18 +1,11 @@
 import * as yup from "yup";
 import { AccessDeniedError } from "@/services/common/http.erros";
-import { createClient } from "redis";
 import authService from "@/services/auth/auth.service";
 const schema = yup.object({
     username: yup.string().required(),
     password: yup.string().required(),
 }).required()
 
-const client = createClient({
-    url: 'redis://default:SocialNetworkPass@localhost:6379'
-});
-client.connect().then(() =>{
-    console.log("Connected to redis");
-})
 
 export async function POST(request: Request){
     const {username, password} = await schema.validate( await request.json());
@@ -29,7 +22,7 @@ export async function POST(request: Request){
         })
 
     } catch (error) {
-        console.log(error);
+        console.log('Error aquí en Route > POST: ', error);
         
         if (error instanceof AccessDeniedError) {
             return new Response(JSON.stringify({

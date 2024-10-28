@@ -1,17 +1,15 @@
+import authService from "@/services/auth/auth.service";
 import { NextResponse } from "next/server";
-import { createClient } from "redis";
 
-const client = createClient({
-    url: 'redis://default:SocialNetworkPass@localhost:6379'
-});
 
-client.connect().then(() =>{
-    console.log("Connected to redis");
-})
 export async function GET(request: Request){
+
+    console.log('request Route GET: ', request);
+    
     const { searchParams } = new URL(request.url)
     const key = searchParams.get('key') ?? ''
+    const value = await authService.getRedisValue(key)
 
-    return NextResponse.json({key: await client.get(key)});
+    return NextResponse.json({value: value});
     
 }

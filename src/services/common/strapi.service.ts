@@ -13,7 +13,7 @@ export const strapiGet = async <T>(endpoint:string, params?: URLSearchParams): P
         
         return res.json()   
     } catch (error) {
-        console.log("ERROR AQUÍ:", error);
+        console.log("ERROR AQUÍ strapiGet:", error);
         throw new Error(`Failed to retrieve in strapi: ${error}`)
         
     }

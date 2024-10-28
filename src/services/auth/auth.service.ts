@@ -12,9 +12,11 @@ class AuthService {
 
     private client: RedisClientType;
     constructor(){ 
-        this.client = createClient({
-            url: 'redis://default:SocialNetworkPass@localhost:6379'
-        });
+        // this.client = createClient({
+        //     url: 'redis://default:SocialNetworkPass@localhost:6379'
+        // });
+        this.client = createClient();
+
 
         this.client.connect().then(() =>{
             console.log("Connected to redis");
@@ -46,7 +48,7 @@ class AuthService {
     }
 
 
-    async getAccessToken(sessionId: string): Promise<string> {
+    async getAccessToken(sessionId?: string): Promise<string> {
         if(!sessionId){
             throw new AccessDeniedError("Session ID is not valid anymore")
         }
@@ -57,6 +59,9 @@ class AuthService {
             throw new AccessDeniedError("Session ID is not valid anymore")
         }
         return accessToken
+    }
+    async getRedisValue(key: string): Promise<string | null> {
+        return await this.client.get(key);
     }
 }
 
