@@ -2,6 +2,7 @@ import ExploreTrending from "@/components/explore/ExploreTrending";
 import ExploreUsers from "@/components/explore/ExploreUsers";
 import Menu from "@/components/menu/Menu";
 import exploreApi from "@/services/explore/explore.service";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { FC, PropsWithChildren } from "react";
 
@@ -14,7 +15,12 @@ const LINKS = [
 const UsersLayOut: FC<PropsWithChildren> = async ({children}) =>{
     const hashes_dataPromise = exploreApi.getTrendingHastags(0, 3);
 
-    const usersPromise =  exploreApi.getFollowRecomendations(0, 5);
+    const accessToken = headers().get('x-social-access-token') ?? null;
+    const usersPromise = accessToken ? 
+      exploreApi.getMyFollowRecomendations(0, 5, accessToken) : 
+      exploreApi.getFollowRecomendations(0, 5)
+
+
 
     const [hashes_data, users] = await Promise.all([hashes_dataPromise, usersPromise])
 

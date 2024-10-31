@@ -19,7 +19,12 @@ export async function middleware(request: NextRequest) {
       return getAuthenticationHeaders(request, accessToken);
 
     } catch (error) {
-      console.log("ERROR Middleware", error);
+      //Esto lo que hace es que si no está registrado, pueda navegar por el sitio menos si intenta acceder al Perfil
+      if(error instanceof AccessDeniedError){
+        if(!request.url.endsWith('/profile')){
+          return NextResponse.next()
+        }
+      }
       return NextResponse.redirect(new URL('/login', request.url));
     }
 } 
@@ -43,5 +48,5 @@ const getAuthenticationHeaders = async (request: NextRequest, accessToken: strin
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/profile', '/api/proxy/:path*'],
+  matcher: ['/', '/messages/:path*', '/profile', '/api/proxy/:path*'],
 }
