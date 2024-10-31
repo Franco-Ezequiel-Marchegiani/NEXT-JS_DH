@@ -11,20 +11,21 @@ export async function middleware(request: NextRequest) {
       const sessionId = request.cookies.get('SocialSessionID')?.value ?? ''
       console.log('sessionId: ', sessionId);
       
-      if(!sessionId)throw new AccessDeniedError("Session ID is not valid anymore")
+      if(!sessionId)throw new AccessDeniedError("Session ID is not valid anymore - SessionID")
       const accessToken = await getAccessToken(sessionId);
-      if (!accessToken) throw new AccessDeniedError("Session ID is not valid anymore")
+      console.log('accessToken: ', accessToken);
 
+      if (!accessToken) throw new AccessDeniedError("Session ID is not valid anymore - accessToken")
       return getAuthenticationHeaders(request, accessToken);
 
     } catch (error) {
-      console.log(error);
-      return NextResponse.redirect(new URL('/login', request.url))
+      console.log("ERROR Middleware", error);
+      return NextResponse.redirect(new URL('/login', request.url));
     }
 } 
 
 const getAccessToken = async (sessionId: string): Promise<string> =>{
-  return (await authApi.getRedisValue(sessionId)).value
+  return (await authApi.getRedisValue(sessionId)).value;
   
 } 
 
@@ -42,5 +43,5 @@ const getAuthenticationHeaders = async (request: NextRequest, accessToken: strin
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/profile',
+  matcher: ['/profile', '/api/proxy/:path*'],
 }

@@ -36,7 +36,11 @@ export class HTTPBaseAPI {
     }
 
     async httpPost<T>(endpointSuffix:string, body: object, accessToken?: string ): Promise<T>{
-        try {
+            console.log("LOG RUTAS");
+            console.log(this.privateEndpoint);
+            console.log(endpointSuffix);
+            console.log(`${this.privateEndpoint}${endpointSuffix}`);
+            
             const res = await fetch(`${this.privateEndpoint}${endpointSuffix}`,{
                 method: 'POST',
                 headers: !accessToken ?{'Content-Type': 'application/json'} : {
@@ -45,20 +49,18 @@ export class HTTPBaseAPI {
                 },
                 body: JSON.stringify(body) //Ayuda a traer la información actualizada a la primera
             })
-            console.log(res);
             
             if(!res.ok){
+                console.log("LOG DEL ERROR");
+                console.log(`${res.status} - ${res.statusText}`);
+                
                 if (res.status === 403) {
                     throw new AccessDeniedError("User has no access")
                 }
                 throw new Error("Faild to post: " + endpointSuffix)
             }
             return res.json()   
-        } catch (error) {
-            console.log("ERROR AQUÍ httpPost:", error);
-            throw new Error(`Failed to retrieve users: ${error}`)
-            
-        }
+        
     }
 
     async httpPostPublic <T>(endpointSuffix:string, body: object): Promise<T>{

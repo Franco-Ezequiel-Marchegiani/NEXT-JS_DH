@@ -1,6 +1,6 @@
 import { createClient, RedisClientType } from "redis";
 import { AccessDeniedError } from "../common/http.erros";
-import { AuthResponseType } from "@/types/auth.types";
+import { AuthResponseType, LoginResponseType } from "@/types/auth.types";
 import { v4 as uuidv4 } from 'uuid';
 import authApi from "./auth.api";
 
@@ -11,40 +11,41 @@ const TEN_MINUTE = 60 + 10;
 class AuthService {
 
     private client: RedisClientType;
-    constructor(){ 
-        // this.client = createClient({
-        //     url: 'redis://default:SocialNetworkPass@localhost:6379'
-        // });
-        this.client = createClient();
-
-
-        this.client.connect().then(() =>{
-            console.log("Connected to redis");
-            
+    constructor(){
+        this.client = createClient({
+            url: 'redis://default:SocialNetworkPass@localhost:6379'
+        });
+        this.client.connect().then(() => {
+            console.log('connected to redis')
         })
     }
 
     async authenticate(username: string, password: string): Promise<AuthResponseType> {
-
         const loginResponse = await authApi.loginInternal(username, password)
+        return this.buildAuthResponse(loginResponse)
+
+    }
+
+    async register(username: string, password: string, name: string, photoUrl: string): Promise<AuthResponseType> {
+
+        const loginResponse = await authApi.registerInternal(username, password, name, photoUrl)
+        return this.buildAuthResponse(loginResponse)
+    }
+
+    buildAuthResponse(loginResponse: LoginResponseType): AuthResponseType{
         //const sessionId = loginResponse.accessToken;
         const sessionId = uuidv4();
-        
         const now = new Date();
-        const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).toUTCString();
+        const expireAt = new Date(now.getTime() + TEN_MINUTE * 1000).getTime();
         
-        this.client.set(sessionId, loginResponse.accessToken, {EX: TEN_MINUTE})
-
         //const authCookie = `SocialSessionID=${sessionId}; Expires=${expireAt}; Domain=localhost; HttpOnly; Path=/`;
         // return NextResponse.json(loginResponse.user);
-
+        this.client.set(sessionId, loginResponse.accessToken, {EX: TEN_MINUTE})
         return {
             sessionId: sessionId,
             expireAt: expireAt,
             user: loginResponse.user
         }
-
-
     }
 
 
@@ -63,8 +64,11 @@ class AuthService {
     async getRedisValue(key: string): Promise<string | null> {
         return await this.client.get(key);
     }
+    //Eliminamos la session ID
+    async logout(sessionId: string): Promise<void> {
+        await this.client.del(sessionId);
+    }
 }
 
 const authService = new AuthService();
-
 export default authService;

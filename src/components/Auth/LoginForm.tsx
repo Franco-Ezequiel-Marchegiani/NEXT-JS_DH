@@ -1,23 +1,18 @@
 "use client"
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
 import SubmitButton from "../form/SubmitButton";
 import InputText from "../form/InputText";
 import { AccessDeniedError } from "@/services/common/http.erros";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import authApi from "@/services/auth/auth.api";
+import LoginScheme from "@/schemes/login.scheme";
 
 type FormData = {
     username: string;
     password: string;
 }
-
-const schema = yup.object({
-    username: yup.string().required(),
-    password: yup.string().required(),
-})
 
 const LoginForm = () =>{
 
@@ -25,7 +20,7 @@ const LoginForm = () =>{
     const [serverError, setServerError] = useState<string | null>(null);
     //Con "methods" extraemos todo para pasar la info al Form Provider
     const methods = useForm<FormData>({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(LoginScheme)
       });
     //Y luego, una vez teniendo el Methods, extraemos lo que necesitemos para este form
     const {handleSubmit} = methods
@@ -37,6 +32,7 @@ const LoginForm = () =>{
             const loginResponse = await authApi.login(data.username, data.password);
             console.log(JSON.stringify(loginResponse));
             router.push('/');
+            router.refresh();
         } catch (error) {
             if (error instanceof AccessDeniedError) {
                 setServerError("Tus credenciales son inválidas")

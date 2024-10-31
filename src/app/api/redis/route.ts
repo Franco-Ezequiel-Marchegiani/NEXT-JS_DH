@@ -1,7 +1,6 @@
 import authService from "@/services/auth/auth.service";
 import { NextResponse } from "next/server";
 
-
 export async function GET(request: Request){
 
     console.log('request Route GET: ', request);

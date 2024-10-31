@@ -9,7 +9,7 @@ const client = createClient({
 });
 
 client.connect().then(() =>{
-    console.log("Connected to redis");
+    console.log("Connected to redis From Page");
 })
 
 

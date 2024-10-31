@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Alegreya, Comic_Neue} from 'next/font/google'
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import { cookies } from "next/headers";
 
 const alegreya = Alegreya({
   subsets: ['latin'],
@@ -23,10 +24,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const loggedUsername = cookies().get('SocialUsername')
+
   return (
     <html lang="en" className={`${comic_neue.variable} ${alegreya.variable}`}>
       <body>
-        <Navbar />
+        <Navbar loggedUsername={loggedUsername?.value}/>
         {children}
       </body>
     </html>
