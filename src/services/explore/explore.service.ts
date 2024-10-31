@@ -2,7 +2,6 @@ import { UserType } from "@/types/user.types";
 import { TrendingHastag } from "@/types/hash.types";
 import { PageType } from "@/types/pagination.types";
 import httpInternalApi from "../common/http.internal.service";
-import httpExternalApi from "../common/http.external.service";
 
 class ExploreAPI {
     getTrendingHastags = async(page: number, size: number): Promise<PageType<TrendingHastag>> => httpInternalApi.httpGetPublic(`/explore/trending?`, new URLSearchParams({page: `${page}`, size: `${size}`}))
